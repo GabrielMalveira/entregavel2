@@ -1,68 +1,108 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Calculadora Matemática</title>
+<head>
     <link rel="stylesheet" href="estilo.css">
-  </head>
-  <body>
-    <h1>Calculadora Matemática</h1>
-    <label for="number">Insira um número:</label>
-    <input type="number" id="number">
-    <button onclick="isPrime()">Verificar se é primo</button>
-    <button onclick="fibonacci()">Fibonacci</button>
-    
-    <button onclick="sum()">Somatório</button>
-    <p id="result"></p>
+	<title>Algoritmos</title>
+</head>
+<body>
     <script>
-        function isPrime() {
-            const number = document.getElementById("number").value;
-            let isPrime = true;
-            for (let i = 2; i < number; i++) {
+        function isPrime(number) {
+            if (number <= 1) {
+              return false;
+            }
+            for (let i = 2; i <= Math.sqrt(number); i++) {
               if (number % i === 0) {
-                isPrime = false;
-                break;
+                return false;
               }
             }
-            const result = document.getElementById("result");
-            if (isPrime) {
-              result.textContent = `${number} é primo`;
-            } else {
-              result.textContent = `${number} não é primo`;
-            }
+            return true;
           }
           
-          function fibonacci() {
-            const number = document.getElementById("number").value;
+          // Fibonacci
+          function fibonacci(n) {
+            if (n <= 0) {
+              return [];
+            }
+            if (n === 1) {
+              return [0];
+            }
             let fib = [0, 1];
-            for (let i = 2; i <= number; i++) {
-              fib.push(fib[i - 1] + fib[i - 2]);
+            for (let i = 2; i < n; i++) {
+              fib[i] = fib[i - 1] + fib[i - 2];
             }
-            const result = document.getElementById("result");
-            result.textContent = `Fibonacci de ${number}: ${fib[number]}`;
+            return fib;
           }
           
-          function gcd() {
-  let number1 = document.getElementById("number1").value;
-  let number2 = document.getElementById("number2").value;
-  while (number2 !== 0) {
-    let temp = number2;
-    number2 = number1 % number2;
-    number1 = temp;
-  }
-  const result = document.getElementById("result");
-  result.textContent = `Máximo divisor comum: ${number1}`;
-}
-          
-          function sum() {
-            const number = document.getElementById("number").value;
-            let sum = 0;
-            for (let i = 1; i <= number; i++) {
-              sum += i;
+          // Somatório
+          function sum(numbers) {
+            let total = 0;
+            for (let i = 0; i < numbers.length; i++) {
+              total += parseInt(numbers[i]);
             }
-            const result = document.getElementById("result");
-            result.textContent = `Somatório de 1 a ${number}: ${sum}`;
+            return total;
+          }
+          
+          // Ordenação usando Quicksort
+          function quickSort(array) {
+            if (array.length <= 1) {
+              return array;
+            }
+            const pivot = array[0];
+            let left = [];
+            let right = [];
+            for (let i = 1; i < array.length; i++) {
+              if (array[i] < pivot) {
+                left.push(array[i]);
+              } else {
+                right.push(array[i]);
+              }
+            }
+            return [...quickSort(left), pivot, ...quickSort(right)];
+          }
+          function execute() {
+            const input = document.getElementById('input').value;
+            const algorithm = document.getElementById('algorithm').value;
+            const output = document.getElementById('output');
+            
+            let result;
+            
+            switch (algorithm) {
+              case 'isPrime':
+                result = isPrime(parseInt(input)) ? `${input} é um número primo` : `${input} não é um número primo`;
+                break;
+              case 'fibonacci':
+                result = `Série de Fibonacci até ${input}: ${fibonacci(parseInt(input)).join(', ')}`;
+                break;
+              case 'sum':
+                result = `Soma dos números: ${sum(input.split(',')).toString()}`;
+                break;
+              case 'quickSort':
+                result = `Array ordenado: ${quickSort(input.split(',')).toString()}`;
+                break;
+              case 'countIntegers':
+                const numbers = input.split(',').map(number => parseInt(number));
+                result = `Quantidade de inteiros entre 1 e ${parseInt(input)}: ${countIntegers(numbers, parseInt(input))}`;
+                break;
+              default:
+                result = 'Selecione um algoritmo';
+            }
+            
+            output.innerHTML = result;
           }
     </script>
-  </body>
+	<h1>Algoritmos</h1>
+	<p>Insira os dados necessários e selecione o algoritmo para executar:</p>
+	<label for="input">Entrada:</label>
+	<input type="text" id="input">
+	<button onclick="execute()">Executar</button>
+	<select id="algorithm">
+		<option value="isPrime">Determinar um número primo</option>
+		<option value="fibonacci">Fibonacci</option>
+		<option value="sum">Somatório</option>
+		<option value="quickSort">Ordenação usando Quicksort</option>
+		<option value="countIntegers">Contagem de inteiros</option>
+	</select>
+	<div id="output"></div>
+    
+</body>
 </html>
