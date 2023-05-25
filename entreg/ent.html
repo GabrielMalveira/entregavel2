@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Algoritmos</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			background-color: #f2f2f2;
+			margin: 0;
+			padding: 0;
+		}
+
+		.container {
+			max-width: 800px;
+			margin: 0 auto;
+			padding: 20px;
+			background-color: #fff;
+			box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+		}
+
+		h1 {
+			text-align: center;
+			margin-bottom: 20px;
+		}
+
+		label {
+			display: block;
+			margin-top: 10px;
+			font-weight: bold;
+		}
+
+		input[type="text"] {
+			width: 100%;
+			padding: 10px;
+			border: 1px solid #ccc;
+			border-radius: 4px;
+		}
+
+		.select-container {
+			display: flex;
+			align-items: center;
+			margin-top: 20px;
+		}
+
+		.select-container select {
+			flex: 1;
+			padding: 10px;
+			border: 1px solid #ccc;
+			border-radius: 4px;
+		}
+
+		.button-container {
+			text-align: center;
+			margin-top: 20px;
+		}
+
+		.button-container button {
+			padding: 10px 20px;
+			background-color: #4CAF50;
+			color: white;
+			border: none;
+			border-radius: 4px;
+			cursor: pointer;
+			transition: background-color 0.3s ease;
+		}
+
+		.button-container button:hover {
+			background-color: #45a049;
+		}
+
+		.result-container {
+			margin-top: 20px;
+			padding: 20px;
+			background-color: #f5f5f5;
+			border: 1px solid #ccc;
+			border-radius: 4px;
+		}
+
+		.result-container p {
+			margin: 0;
+		}
+    .topic-container {
+	background-color: #f9f9f9;
+	padding: 30px;
+	border-radius: 8px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	text-align: center;
+}
+
+.topic-title {
+	color: #000;
+	font-size: 24px;
+	margin-bottom: 10px;
+}
+	</style>
+</head>
+<body>
+  <div class="topic-container">
+    <h2 class="topic-title">GABRIEL MALVEIRA - 2222474</h2>
+  </div>
+	<h1>Algoritmos</h1>
+	<p>Insira os dados necessários e selecione o algoritmo para executar:</p>
+	<label for="input">Entrada (separados por vírgula):</label>
+	<input type="text" id="input">
+	<button onclick="execute()">Executar</button>
+	<select id="algorithm">
+		<option value="isPrime">Determinar um número primo</option>
+		<option value="fibonacci">Fibonacci</option>
+		<option value="sum">Somatório</option>
+		<option value="quickSort">Ordenação usando Quicksort</option>
+		<option value="countIntegers">Contagem de inteiros</option>
+		<option value="gcd">Máximo Divisor Comum</option>
+	</select>
+	<div id="output"></div>
+
+	<script>
+		// Determinar um número primo
+		function isPrime(number) {
+			if (number <= 1) {
+				return false;
+			}
+			for (let i = 2; i <= Math.sqrt(number); i++) {
+				if (number % i === 0) {
+					return false;
+				}
+			}
+			return true;
+		}
+
+		// Fibonacci
+		function fibonacci(n) {
+			if (n <= 0) {
+				return [];
+			}
+			if (n === 1) {
+				return [0];
+			}
+			let fib = [0, 1];
+			for (let i = 2; i < n; i++) {
+				fib[i] = fib[i - 1] + fib[i - 2];
+			}
+			return fib;
+		}
+
+		// Somatório
+		function sum(numbers) {
+			let total = 0;
+			for (let i = 0; i < numbers.length; i++) {
+				total += parseInt(numbers[i]);
+			}
+			return total;
+		}
+
+		// Ordenação usando Quicksort
+		function quickSort(array) {
+			if (array.length <= 1) {
+				return array;
+			}
+			const pivot = array[0];
+			let left = [];
+			let right = [];
+			for (let i = 1; i < array.length; i++) {
+				if (array[i] < pivot) {
+					left.push(array[i]);
+				} else {
+					right.push(array[i]);
+				}
+			}
+			return quickSort(left).concat(pivot, quickSort(right));
+		}
+
+		// Máximo Divisor Comum (mdc)
+		function gcd(a, b) {
+			if (b === 0) {
+				return a;
+			}
+			return gcd(b, a % b);
+		}
+
+		// Contagem de inteiros
+		function countIntegers(start, end) {
+			let count = 0;
+			for (let i = Math.ceil(start); i <= Math.floor(end); i++) {
+				if (Number.isInteger(i)) {
+					count++;
+				}
+			}
+			return count;
+		}
+
+		// Executa o algoritmo selecionado
+		function execute() {
+			const input = document.getElementById('input').value;
+			const algorithm = document.getElementById('algorithm').value;
+			let result;
+
+			switch (algorithm) {
+				case 'isPrime':
+					result = isPrime(parseInt(input)) ? 'É primo' : 'Não é primo';
+					break;
+				case 'fibonacci':
+					result = fibonacci(parseInt(input)).join(', ');
+					break;
+				case 'sum':
+					result = sum(input.split(',')); 
+					break;
+				case 'quickSort':
+					result = quickSort(input.split(',')).join(', ');
+					break;
+				case 'countIntegers':
+					const [start, end] = input.split(',');
+					result = `Existem ${countIntegers(start, end)} valores inteiros entre ${start} e ${end}`;
+					break;
+				case 'gcd':
+					const [numA, numB] = input.split(',');
+					result = `O máximo divisor comum entre ${numA} e ${numB} é: ${gcd(parseInt(numA), parseInt(numB))}`;
+					break;
+				default:
+					result = 'Algoritmo inválido';
+				break;
+			}
+
+			document.getElementById('output').innerHTML = result;
+		}
+	</script>
+</body>
+</html>
