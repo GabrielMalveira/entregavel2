@@ -1,0 +1,95 @@
+import java.util.Arrays;
+
+public class Algoritmos {
+
+    public static boolean determinarPrimo(int numero) {
+        if (numero <= 1) {
+            return false;
+        }
+        for (int i = 2; i <= Math.sqrt(numero); i++) {
+            if (numero % i == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static int fibonacci(int n) {
+        if (n <= 1) {
+            return n;
+        }
+        int a = 0;
+        int b = 1;
+        for (int i = 2; i <= n; i++) {
+            int temp = a + b;
+            a = b;
+            b = temp;
+        }
+        return b;
+    }
+
+    public static int somatorio(int n) {
+        int soma = 0;
+        for (int i = 1; i <= n; i++) {
+            soma += i;
+        }
+        return soma;
+    }
+
+    public static void quicksort(int[] array, int inicio, int fim) {
+        if (inicio < fim) {
+            int indicePivo = particionar(array, inicio, fim);
+            quicksort(array, inicio, indicePivo - 1);
+            quicksort(array, indicePivo + 1, fim);
+        }
+    }
+
+    private static int particionar(int[] array, int inicio, int fim) {
+        int pivo = array[fim];
+        int i = inicio - 1;
+        for (int j = inicio; j < fim; j++) {
+            if (array[j] <= pivo) {
+                i++;
+                int temp = array[i];
+                array[i] = array[j];
+                array[j] = temp;
+            }
+        }
+        int temp = array[i + 1];
+        array[i + 1] = array[fim];
+        array[fim] = temp;
+        return i + 1;
+    }
+
+    public static int contarNumeros(int a, int b) {
+        int count = 0;
+        for (int i = a; i <= b; i++) {
+            count++;
+        }
+        return count;
+    }
+
+    public static void main(String[] args) {
+        // Exemplo de uso dos algoritmos
+        int numero = 13;
+        boolean isPrimo = determinarPrimo(numero);
+        System.out.println(numero + " é primo? " + isPrimo);
+
+        int fibonacciTermo = 10;
+        int fibonacciNumero = fibonacci(fibonacciTermo);
+        System.out.println("O termo " + fibonacciTermo + " da sequência de Fibonacci é: " + fibonacciNumero);
+
+        int somatorioNumero = 5;
+        int somatorioResultado = somatorio(somatorioNumero);
+        System.out.println("O somatório dos números até " + somatorioNumero + " é: " + somatorioResultado);
+
+        int[] array = {5, 2, 8, 1, 9};
+        quicksort(array, 0, array.length - 1);
+        System.out.println("Array ordenado: " + Arrays.toString(array));
+
+        int a = 10;
+        int b = 20;
+        int quantidadeNumeros = contarNumeros(a, b);
+        System.out.println("A quantidade de números inteiros entre " + a + " e " + b + " é: " + quantidadeNumeros);
+    }
+}
